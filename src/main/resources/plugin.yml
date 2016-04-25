@@ -1,0 +1,3 @@
+name: Database
+version: 1.0
+main: pl.grzegorz2047.databaseapi.Database
