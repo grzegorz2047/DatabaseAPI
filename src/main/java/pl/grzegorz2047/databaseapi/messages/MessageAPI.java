@@ -2,6 +2,7 @@ package pl.grzegorz2047.databaseapi.messages;
 
 import pl.grzegorz2047.databaseapi.DatabaseAPI;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,7 +28,8 @@ public class MessageAPI {
     private void loadMessages() {
         String query = "SELECT * FROM Messages WHERE minigame='" + minigame + "'";
         try {
-            Statement st = sql.getConnection().createStatement();
+            Connection connection = sql.getConnection();
+            Statement st = connection.createStatement();
             ResultSet result = st.executeQuery(query);
             while (result.next()) {
                 String language = result.getString("language");
@@ -48,6 +50,7 @@ public class MessageAPI {
                 }
             }
             st.close();
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,6 +62,6 @@ public class MessageAPI {
                 return msg.getValue().getMessage(lang);
             }
         }
-        return "No message added yet!";
+        return "§7No message added yet for path §c§l" + path;
     }
 }

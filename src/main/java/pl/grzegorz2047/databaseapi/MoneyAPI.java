@@ -1,5 +1,6 @@
 package pl.grzegorz2047.databaseapi;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,8 +22,10 @@ public class MoneyAPI {
     public void insertPlayer(String player) {
         try {
             String query = "INSERT IGNORE INTO "+getMoneyTable()+ "  (userid, money, id) "+ " VALUES " + " ((SELECT userid FROM Players WHERE Players.username='" + player + "'), 0, 0)";
-            Statement st = sql.getConnection().createStatement();
+            Connection connection = sql.getConnection();
+            Statement st = connection.createStatement();
             st.execute(query);
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -35,8 +38,10 @@ public class MoneyAPI {
     public void changePlayerMoney(String player, int money) {
         try {                                                                                       //UPDATE TheWallsMoney SET money=money + 5 WHERE userid=(SELECT userid FROM Player WHERE Player.username='grzegorz2047')
             String query = "UPDATE " + getMoneyTable() + " SET money=money+'" + money + "' WHERE userid=" + "(SELECT userid FROM Players WHERE Players.username='" + player + "')";
-            Statement st = sql.getConnection().createStatement();
+            Connection connection = sql.getConnection();
+            Statement st = connection.createStatement();
             st.executeUpdate(query);
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

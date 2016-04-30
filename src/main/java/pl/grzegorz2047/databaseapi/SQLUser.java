@@ -4,16 +4,18 @@ package pl.grzegorz2047.databaseapi;
  * Created by grzegorz2047 on 23.04.2016
  */
 public class SQLUser {
+    private int exp;
     private int userid;
     private String username;
     private String language;
     private String lastip;
 
-    public SQLUser(int userid, String username, String language, String lastip){
+    public SQLUser(int userid, String username, String language, String lastip, int exp){
         this.userid = userid;
         this.username = username;
         this.language = language;
         this.lastip = lastip;
+        this.exp = exp;
     }
 
 

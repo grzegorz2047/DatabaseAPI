@@ -31,7 +31,6 @@ public class DatabaseAPI {
 
     private void connectDB() {
         hikari = new HikariDataSource();
-        hikari.setMaximumPoolSize(10);
         hikari.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
         hikari.addDataSourceProperty("serverName", host);
         hikari.addDataSourceProperty("port", port);
@@ -52,11 +51,13 @@ public class DatabaseAPI {
     }
 
     public boolean insertPlayer(Player p) {
-        String query = "INSERT IGNORE INTO Players (userid, language, username, lastip) VALUES (0, 'EN', '" + p.getName() + "', '" + p.getAddress().toString().split(":")[0].substring(1) + "')";
+        String query = "INSERT IGNORE INTO Players (userid, language, username, lastip, experience) VALUES (0, 'EN', '" + p.getName() + "', '" + p.getAddress().toString().split(":")[0].substring(1) + "', 0)";
         try {
+            Connection c = this.getConnection();
             Statement st = this.getConnection().createStatement();
             boolean answer = st.execute(query);
             st.close();
+            c.close();
             return answer;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,6 +68,7 @@ public class DatabaseAPI {
     public SQLUser getPlayer(Player p) {
         String query = "SELECT * FROM Players WHERE username='" + p.getName() + "' LIMIT 1";
         try {
+            Connection c = this.getConnection();
             Statement st = this.getConnection().createStatement();
             ResultSet result = st.executeQuery(query);
             while (result.next()) {
@@ -74,9 +76,11 @@ public class DatabaseAPI {
                 String lastip = result.getString("lastip");
                 String language = result.getString("language");
                 int userid = result.getInt("userid");
-                return new SQLUser(userid, username, language, lastip);
+                int exp = result.getInt("experience");
+                return new SQLUser(userid, username, language, lastip, exp);
             }
             st.close();
+            c.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,11 +88,13 @@ public class DatabaseAPI {
     }
     //Allows to change language!
     public int updateColumn(String player, String column, String value) {
-        String query = "UPDATE Players SET " + column + "=" + value + " WHERE username=" + player;
+        String query = "UPDATE Players SET " + column + "='" + value + "' WHERE username='" + player+"'";
         try {
+            Connection c = this.getConnection();
             Statement st = this.getConnection().createStatement();
             int answer = st.executeUpdate(query);
             st.close();
+            c.close();
             return answer;
         } catch (SQLException e) {
             e.printStackTrace();
