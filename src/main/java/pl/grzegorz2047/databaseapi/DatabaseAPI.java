@@ -54,7 +54,7 @@ public class DatabaseAPI {
         String query = "INSERT IGNORE INTO Players (userid, language, username, lastip, experience) VALUES (0, 'EN', '" + p.getName() + "', '" + p.getAddress().toString().split(":")[0].substring(1) + "', 0)";
         try {
             Connection c = this.getConnection();
-            Statement st = this.getConnection().createStatement();
+            Statement st = c.createStatement();
             boolean answer = st.execute(query);
             st.close();
             c.close();
@@ -69,7 +69,7 @@ public class DatabaseAPI {
         String query = "SELECT * FROM Players WHERE username='" + p.getName() + "' LIMIT 1";
         try {
             Connection c = this.getConnection();
-            Statement st = this.getConnection().createStatement();
+            Statement st = c.createStatement();
             ResultSet result = st.executeQuery(query);
             while (result.next()) {
                 String username = result.getString("username");
@@ -91,7 +91,7 @@ public class DatabaseAPI {
         String query = "UPDATE Players SET " + column + "='" + value + "' WHERE username='" + player+"'";
         try {
             Connection c = this.getConnection();
-            Statement st = this.getConnection().createStatement();
+            Statement st = c.createStatement();
             int answer = st.executeUpdate(query);
             st.close();
             c.close();
