@@ -20,30 +20,66 @@ public class MoneyAPI {
     }
 
     public void insertPlayer(String player) {
+        Connection c = null;
+        Statement st = null;
         try {
-            String query = "INSERT IGNORE INTO "+getMoneyTable()+ "  (userid, money, id) "+ " VALUES " + " ((SELECT userid FROM Players WHERE Players.username='" + player + "'), 0, 0)";
-            Connection connection = sql.getConnection();
-            Statement st = connection.createStatement();
+            String query = "INSERT IGNORE INTO " + getMoneyTable() + "  (userid, money, id) " + " VALUES " + " ((SELECT userid FROM Players WHERE Players.username='" + player + "'), 0, 0)";
+            c = sql.getConnection();
+            st = c.createStatement();
             st.execute(query);
-            connection.close();
+            st.close();
+            c.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (c != null) {
+                    c.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
-    public int getPlayer(String player){
+    public int getPlayer(String player) {
         return 0;
     }
 
     public void changePlayerMoney(String player, int money) {
+        Connection c = null;
+        Statement st = null;
         try {                                                                                       //UPDATE TheWallsMoney SET money=money + 5 WHERE userid=(SELECT userid FROM Player WHERE Player.username='grzegorz2047')
             String query = "UPDATE " + getMoneyTable() + " SET money=money+'" + money + "' WHERE userid=" + "(SELECT userid FROM Players WHERE Players.username='" + player + "')";
-            Connection connection = sql.getConnection();
-            Statement st = connection.createStatement();
+            c = sql.getConnection();
+            st = c.createStatement();
             st.executeUpdate(query);
-            connection.close();
+            st.close();
+            c.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (c != null) {
+                    c.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

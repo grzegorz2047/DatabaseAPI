@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by grzegorz2047 on 22.04.2016
@@ -52,24 +54,43 @@ public class DatabaseAPI {
 
     public boolean insertPlayer(Player p) {
         String query = "INSERT IGNORE INTO Players (userid, language, username, lastip, experience) VALUES (0, 'EN', '" + p.getName() + "', '" + p.getAddress().toString().split(":")[0].substring(1) + "', 0)";
+        Connection c = null;
+        Statement st = null;
         try {
-            Connection c = this.getConnection();
-            Statement st = c.createStatement();
+            c = this.getConnection();
+            st = c.createStatement();
             boolean answer = st.execute(query);
             st.close();
             c.close();
             return answer;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (c != null) {
+                    c.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         return false;
     }
 
     public SQLUser getPlayer(Player p) {
         String query = "SELECT * FROM Players WHERE username='" + p.getName() + "' LIMIT 1";
+        Connection c = null;
+        Statement st = null;
         try {
-            Connection c = this.getConnection();
-            Statement st = c.createStatement();
+            c = this.getConnection();
+            st = c.createStatement();
             ResultSet result = st.executeQuery(query);
             while (result.next()) {
                 String username = result.getString("username");
@@ -83,21 +104,54 @@ public class DatabaseAPI {
             c.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (c != null) {
+                    c.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         return null;
     }
+
     //Allows to change language!
     public int updateColumn(String player, String column, String value) {
-        String query = "UPDATE Players SET " + column + "='" + value + "' WHERE username='" + player+"'";
+        String query = "UPDATE Players SET " + column + "='" + value + "' WHERE username='" + player + "'";
+        Connection c = null;
+        Statement st = null;
         try {
-            Connection c = this.getConnection();
-            Statement st = c.createStatement();
+            c = this.getConnection();
+            st = c.createStatement();
             int answer = st.executeUpdate(query);
             st.close();
             c.close();
             return answer;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (c != null) {
+                    c.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         return -1;
     }
