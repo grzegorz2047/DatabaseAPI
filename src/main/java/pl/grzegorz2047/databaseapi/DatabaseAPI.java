@@ -53,7 +53,7 @@ public class DatabaseAPI {
     }
 
     public boolean insertPlayer(Player p) {
-        String query = "INSERT IGNORE INTO Players (userid, language, username, lastip, experience) VALUES (0, 'EN', '" + p.getName() + "', '" + p.getAddress().toString().split(":")[0].substring(1) + "', 0)";
+        String query = "INSERT IGNORE INTO Players (userid, language, username, lastip, experience, pets, effects) VALUES (0, 'EN', '" + p.getName() + "', '" + p.getAddress().toString().split(":")[0].substring(1) + "', 0, 'false', 'false')";
         Connection c = null;
         Statement st = null;
         try {
@@ -98,7 +98,9 @@ public class DatabaseAPI {
                 String language = result.getString("language");
                 int userid = result.getInt("userid");
                 int exp = result.getInt("experience");
-                return new SQLUser(userid, username, language, lastip, exp);
+                boolean pets = result.getBoolean("pets");
+                boolean effects = result.getBoolean("effects");
+                return new SQLUser(userid, username, language, lastip, exp, pets, effects);
             }
             st.close();
             c.close();
@@ -154,5 +156,34 @@ public class DatabaseAPI {
             }
         }
         return -1;
+    }
+    public void changePlayerExp(String player, int exp) {
+        Connection c = null;
+        Statement st = null;
+        try {                                                                                       //UPDATE TheWallsMoney SET money=money + 5 WHERE userid=(SELECT userid FROM Player WHERE Player.username='grzegorz2047')
+            String query = "UPDATE Players SET  experience=experience +'" + exp + "' WHERE username='" + player + "'";
+            c = this.getConnection();
+            st = c.createStatement();
+            st.executeUpdate(query);
+            st.close();
+            c.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (c != null) {
+                    c.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }

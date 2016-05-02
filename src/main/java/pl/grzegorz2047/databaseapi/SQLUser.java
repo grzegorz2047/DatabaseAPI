@@ -9,13 +9,17 @@ public class SQLUser {
     private String username;
     private String language;
     private String lastip;
+    private boolean pets;
+    private boolean effects;
 
-    public SQLUser(int userid, String username, String language, String lastip, int exp){
+    public SQLUser(int userid, String username, String language, String lastip, int exp, boolean pets, boolean effects){
         this.userid = userid;
         this.username = username;
         this.language = language;
         this.lastip = lastip;
         this.exp = exp;
+        this.pets = pets;
+        this.effects = effects;
     }
 
 
@@ -49,5 +53,17 @@ public class SQLUser {
 
     public void setLastip(String lastip) {
         this.lastip = lastip;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public boolean isPets() {
+        return pets;
+    }
+
+    public boolean isEffects() {
+        return effects;
     }
 }
