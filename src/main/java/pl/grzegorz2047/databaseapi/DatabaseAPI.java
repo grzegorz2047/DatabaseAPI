@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -157,6 +158,7 @@ public class DatabaseAPI {
         }
         return -1;
     }
+
     public void changePlayerExp(String player, int exp) {
         Connection c = null;
         Statement st = null;
@@ -185,5 +187,42 @@ public class DatabaseAPI {
                 ex.printStackTrace();
             }
         }
+    }
+
+    public HashMap<String, String> getSettings() {
+        HashMap<String, String> settings = new HashMap<String, String>();
+        String query = "SELECT * FROM Settings";
+        Connection c = null;
+        Statement st = null;
+        try {
+            c = this.getConnection();
+            st = c.createStatement();
+            ResultSet result = st.executeQuery(query);
+            while (result.next()) {
+                String path = result.getString("path");
+                String value = result.getString("value");
+                settings.put(path, value);
+            }
+            st.close();
+            c.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (c != null) {
+                    c.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return settings;
     }
 }
