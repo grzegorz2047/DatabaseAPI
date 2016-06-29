@@ -268,7 +268,7 @@ public class DatabaseAPI {
 
     public void refreshRank(Player p) {
         String query = "SELECT * FROM Players WHERE username='" + p.getName() + "' LIMIT 1";
-        String query2 = "UPDATE Player SET rank='" + "Gracz" + "' WHERE username='" + p.getName() + "' LIMIT 1";
+        String query2 = "UPDATE Players SET rank='" + "Gracz" + "' WHERE username='" + p.getName() + "' LIMIT 1";
         Connection c = null;
         Statement st = null;
         Statement st2 = null;
