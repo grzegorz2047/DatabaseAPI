@@ -81,8 +81,8 @@ public class StatsAPI {
         }
     }
 
-    public StatsUser getPlayer(Player p) {
-        String query = "SELECT * FROM " + table + " WHERE userid=(SELECT userid FROM Players WHERE Players.username='" + p.getName() + "') LIMIT 1";
+    public StatsUser getPlayer(String p) {
+        String query = "SELECT * FROM " + table + " WHERE userid=(SELECT userid FROM Players WHERE Players.username='" + p + "') LIMIT 1";
         Connection c = null;
         Statement st = null;
         try {
@@ -119,11 +119,6 @@ public class StatsAPI {
             }
         }
         return null;
-    }
-
-
-    public int getPlayer(String player) {
-        return 0;
     }
 
 }

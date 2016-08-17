@@ -55,14 +55,14 @@ public class DatabaseAPI {
         return hikari;
     }
 
-    public boolean insertPlayer(Player p) {
-        String ipaddress = "";
-        if (p.getAddress() != null) {
-            ipaddress = p.getAddress().toString().split(":")[0].substring(1);
-        }
+    public boolean insertPlayer(String p, String ipAddress) {
+       // String ipaddress = "";
+       // if (p.getAddress() != null) {
+       //     ipaddress = p.getAddress().toString().split(":")[0].substring(1);
+       // }
         String query = "INSERT IGNORE INTO Players (userid, language, username, lastip, experience,rank, pets, effects) VALUES (0, 'PL', '" +
-                p.getName() + "', '" +
-                ipaddress + "', 0, 'Gracz', 'false', 'false')";
+                p + "', '" +
+                ipAddress + "', 0, 'Gracz', 'false', 'false')";
         Connection c = null;
         Statement st = null;
         try {
@@ -93,8 +93,8 @@ public class DatabaseAPI {
         return false;
     }
 
-    public SQLUser getPlayer(Player p) {
-        String query = "SELECT * FROM Players WHERE username='" + p.getName() + "' LIMIT 1";
+    public SQLUser getPlayer(String p) {
+        String query = "SELECT * FROM Players WHERE username='" + p + "' LIMIT 1";
         Connection c = null;
         Statement st = null;
         try {
