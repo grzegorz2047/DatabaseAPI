@@ -3,13 +3,11 @@ package pl.grzegorz2047.databaseapi;
 /**
  * Created by grzegorz2047 on 23.04.2016
  */
+
+
 public class SQLUser {
+    private boolean disguise;
     private String rank;
-
-    public void setRankto(long rankto) {
-        this.rankto = rankto;
-    }
-
     private long rankto;
     private int exp;
     private int userid;
@@ -19,7 +17,11 @@ public class SQLUser {
     private boolean pets;
     private boolean effects;
 
-    public SQLUser(int userid, String username, String language, String lastip, int exp, boolean pets, boolean effects, String rank, long rankto) {
+    public void setRankto(long rankto) {
+        this.rankto = rankto;
+    }
+
+    public SQLUser(int userid, String username, String language, String lastip, int exp, boolean pets, boolean effects, boolean disguise, String rank, long rankto) {
         this.userid = userid;
         this.username = username;
         this.language = language;
@@ -27,6 +29,7 @@ public class SQLUser {
         this.exp = exp;
         this.pets = pets;
         this.effects = effects;
+        this.disguise = disguise;
         this.rank = rank;
         this.rankto = rankto;
     }
@@ -43,13 +46,20 @@ public class SQLUser {
         this.pets = pets;
     }
 
+    public void setDisguise(boolean disguise) {
+        this.disguise = disguise;
+    }
+
+    public boolean hasDisguise() {
+        return this.disguise;
+    }
 
     public void setEffects(boolean effects) {
         this.effects = effects;
     }
 
     public String getLanguage() {
-        return language;
+        return this.language;
     }
 
     public void setLanguage(String language) {
@@ -57,7 +67,7 @@ public class SQLUser {
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public void setUsername(String username) {
@@ -65,7 +75,7 @@ public class SQLUser {
     }
 
     public int getUserid() {
-        return userid;
+        return this.userid;
     }
 
     public void setUserid(int userid) {
@@ -73,7 +83,7 @@ public class SQLUser {
     }
 
     public String getLastip() {
-        return lastip;
+        return this.lastip;
     }
 
     public void setLastip(String lastip) {
@@ -81,22 +91,26 @@ public class SQLUser {
     }
 
     public int getExp() {
-        return exp;
+        return this.exp;
     }
 
     public boolean hasPets() {
-        return pets;
+        return this.pets;
     }
 
     public boolean hasEffects() {
-        return effects;
+        return this.effects;
     }
 
     public String getRank() {
-        return rank;
+        return this.rank;
     }
 
     public long getRankto() {
-        return rankto;
+        return this.rankto;
+    }
+
+    public boolean isDisguise() {
+        return this.disguise;
     }
 }

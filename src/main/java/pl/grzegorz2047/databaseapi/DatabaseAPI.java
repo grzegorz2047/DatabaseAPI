@@ -56,13 +56,13 @@ public class DatabaseAPI {
     }
 
     public boolean insertPlayer(String p, String ipAddress) {
-       // String ipaddress = "";
-       // if (p.getAddress() != null) {
-       //     ipaddress = p.getAddress().toString().split(":")[0].substring(1);
-       // }
-        String query = "INSERT IGNORE INTO Players (userid, language, username, lastip, experience,rank, pets, effects) VALUES (0, 'PL', '" +
+        // String ipaddress = "";
+        // if (p.getAddress() != null) {
+        //     ipaddress = p.getAddress().toString().split(":")[0].substring(1);
+        // }
+        String query = "INSERT IGNORE INTO Players (userid, language, username, lastip, experience,rank, pets, effects, disguise) VALUES (0, 'PL', '" +
                 p + "', '" +
-                ipAddress + "', 0, 'Gracz', 'false', 'false')";
+                ipAddress + "', 0, 'Gracz', 'false', 'false', 'false')";
         Connection c = null;
         Statement st = null;
         try {
@@ -101,20 +101,18 @@ public class DatabaseAPI {
             c = this.getConnection();
             st = c.createStatement();
             ResultSet result = st.executeQuery(query);
-            while (result.next()) {
-                String username = result.getString("username");
-                String lastip = result.getString("lastip");
-                String language = result.getString("language");
-                int userid = result.getInt("userid");
-                int exp = result.getInt("experience");
-                boolean pets = result.getBoolean("pets");
-                boolean effects = result.getBoolean("effects");
-                String rank = result.getString("rank");
-                long rankto = result.getLong("rankto");
-                return new SQLUser(userid, username, language, lastip, exp, pets, effects, rank, rankto);
-            }
-            st.close();
-            c.close();
+
+            String username = result.getString("username");
+            String lastip = result.getString("lastip");
+            String language = result.getString("language");
+            int userid = result.getInt("userid");
+            int exp = result.getInt("experience");
+            boolean pets = result.getBoolean("pets");
+            boolean effects = result.getBoolean("effects");
+            boolean disguise = result.getBoolean("disguise");
+            String rank = result.getString("rank");
+            long rankto = result.getLong("rankto");
+            return new SQLUser(userid, username, language, lastip, exp, pets, effects, disguise, rank, rankto);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
