@@ -78,7 +78,7 @@ public class MoneyAPI {
                 ex.printStackTrace();
             }
         }
-        return 0;
+        return -1;
     }
 
     public void changePlayerMoney(String player, int money) {
