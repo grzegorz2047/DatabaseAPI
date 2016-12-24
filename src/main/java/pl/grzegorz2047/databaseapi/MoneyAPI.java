@@ -55,8 +55,7 @@ public class MoneyAPI {
             st = c.createStatement();
             ResultSet result = st.executeQuery(query);
             while (result.next()) {
-                int money = result.getInt("money");
-                return money;
+                return result.getInt("money");
             }
             st.close();
             c.close();
